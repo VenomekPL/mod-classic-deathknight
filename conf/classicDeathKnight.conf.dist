@@ -1,0 +1,45 @@
+#
+# mod-classic-deathknight
+#
+
+[worldserver]
+
+# ClassicDeathKnight.Enable
+#        Description: Enable Classic Death Knight (level 1-60) module
+#        Default: 1
+ClassicDeathKnight.Enable = 1
+
+# ClassicDeathKnight.Announce
+#        Description: Announce module on login for DK characters
+#        Default: 0
+ClassicDeathKnight.Announce = 0
+
+# ClassicDeathKnight.WotlkProgressionStage
+#        Description: Individual Progression stage required for Death Gate / Acherus (PROGRESSION_TBC_TIER_5 = 13)
+#        Default: 13
+ClassicDeathKnight.WotlkProgressionStage = 13
+
+# ClassicDeathKnight.PlateSkillLevel
+#        Description: Level at which Death Knights learn plate mail (skill 293)
+#        Default: 40
+ClassicDeathKnight.PlateSkillLevel = 40
+
+# ClassicDeathKnight.DamageScaleEnable
+#        Description: Scale Death Knight spell and DoT damage/healing by level (WotLK spells tuned for ~55+)
+#        Default: 1
+ClassicDeathKnight.DamageScaleEnable = 1
+
+# ClassicDeathKnight.DamageScaleFullLevel
+#        Description: Player level at which DK abilities reach full WotLK damage values
+#        Default: 60
+ClassicDeathKnight.DamageScaleFullLevel = 60
+
+# ClassicDeathKnight.DamageScaleMinMultiplier
+#        Description: Damage multiplier at level 1 (10% = Icy Touch ~13 instead of ~127)
+#        Default: 0.10
+ClassicDeathKnight.DamageScaleMinMultiplier = 0.10
+
+# ClassicDeathKnight.AllowDungeonFinder
+#        Description: Classic DKs are credited with post-Acherus quests 13188/13189 so LFG and other DK gates match other classes
+#        Default: 1
+ClassicDeathKnight.AllowDungeonFinder = 1
