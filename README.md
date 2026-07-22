@@ -19,7 +19,21 @@ Copy `conf/classicDeathKnight.conf.dist` to your server `etc/modules/classicDeat
 
 ## Configuration
 
-See `conf/classicDeathKnight.conf.dist` for knobs (`Enable`, WotLK progression stage, damage scaling, plate skill level, LFG credit).
+Purpose: classic L1–60 DK experience with remapped spells, world trainers, level-scaled ability damage, and IP-gated Death Gate / Acherus.
+
+See `conf/classicDeathKnight.conf.dist`:
+
+| Key | Default | Meaning |
+|-----|---------|---------|
+| `ClassicDeathKnight.Enable` | 1 | Master switch |
+| `ClassicDeathKnight.Announce` | 0 | Login announce for DK characters |
+| `ClassicDeathKnight.WotlkProgressionStage` | 13 | IP stage required for Death Gate / Acherus (`PROGRESSION_TBC_TIER_5`) |
+| `ClassicDeathKnight.PlateSkillLevel` | 40 | Level to learn plate |
+| `ClassicDeathKnight.DamageScaleEnable` | 1 | Scale DK spell/DoT power by level |
+| `ClassicDeathKnight.DamageScaleFullLevel` | 60 | Level at full WotLK damage |
+| `ClassicDeathKnight.DamageScaleMinMultiplier` | 0.10 | Multiplier at level 1 |
+
+Realm overlays may leave all keys at `.dist` when those defaults match the realm.
 
 ## SQL
 
