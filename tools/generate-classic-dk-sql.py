@@ -93,18 +93,23 @@ SPELL_PROGRESSION = {
     49999: (50, 0),  # Death Strike rank 2
     49936: (52, 0),  # Death and Decay rank 2
     49939: (52, 0),  # Blood Boil rank 2
-    54446: (54, 0),  # Rune Strike
-    55258: (50, 0),  # Heart Strike
-    55259: (54, 0),
-    51416: (50, 0),  # Obliterate
-    51417: (54, 0),
-    51325: (50, 0),  # Corpse Explosion
-    49020: (50, 0),  # Scourge Strike
-    51423: (52, 0),
+    54446: (54, 0),  # Rune Strike (baseline, not a talent)
+    # Talent abilities / ranks are NEVER auto-granted — talent tree + trainer ReqAbility.
+    # Do not add: Frost Strike, Obliterate, Heart Strike, Corpse Explosion, Howling Blast, Scourge Strike.
     53323: (54, 0),  # Rune of Spellbreaking
     53331: (50, 0),  # Rune of Spellshattering
     53342: (52, 0),  # Rune of Razorice
     54447: (54, 0),  # Rune of Swordshattering
+}
+
+# Talent Rank 1 spell IDs — exclude from trainer 130 (learned via talent tree only).
+TALENT_RANK1_SPELLS = {
+    49020,  # Obliterate
+    49143,  # Frost Strike
+    55050,  # Heart Strike
+    49158,  # Corpse Explosion
+    49184,  # Howling Blast
+    55090,  # Scourge Strike
 }
 
 # Spells normally granted at DK creation or via Acherus questline (not on template 13)
@@ -458,6 +463,8 @@ def gen_trainer_sql() -> str:
             continue
         if spell_id == 50977:
             continue
+        if spell_id in TALENT_RANK1_SPELLS:
+            continue  # talent tree only; higher ranks keep ReqAbility1 on R1
         vals.append(f"(130,{spell_id},{money},{rsl},{rsr},{ra1},{ra2},{ra3},{new_lvl},0)")
         seen_spells.add(spell_id)
     for spell_id, money, ra1, level in TRAINER_EXTRA_SPELLS:

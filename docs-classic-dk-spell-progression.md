@@ -1,8 +1,28 @@
 # Classic Death Knight spell progression
 
-Source of truth: `classic_dk_spell_progression` table (see `data/sql/custom/db_world/2026_07_11_04_classic_dk_spell_progression.sql`).
+Source of truth: `classic_dk_spell_progression` table (`data/sql/updates/db_world/`).
 
-The `mod-classic-deathknight` module (source: `custom-modules/mod-classic-deathknight/`) loads this table and learns/unlearns spells on login and level-up.
+This module loads the table and learns/unlearns spells on login and level-up via `ApplyProgression()`.
+
+## Designed cutoffs
+
+| System | Ends | Notes |
+|--------|------|-------|
+| Dense baseline ranks in progression table | ~L54 | Icy Touch / Plague Strike / etc. rank upgrades |
+| `mod-learn-spells` | MaxLevel **55** | 56–80 = class trainers only |
+| Quest-skip specials | L58 / L60 | Death Gate, Army, riding, Deathcharger — not continued rank spam |
+
+World DK trainers (template **130**) are in racial starts and major capitals (Stormwind, Ironforge, Orgrimmar, Undercity, Darnassus, Thunder Bluff, Exodar, Silvermoon). They are **not** WotLK-gated.
+
+## Talent abilities (never auto-granted)
+
+Talent Rank 1 comes from the talent tree. Higher ranks are trained only after `ReqAbility1` on that talent Rank 1.
+
+Do **not** put these (or their ranks) in `classic_dk_spell_progression`:
+
+- Frost Strike, Obliterate, Heart Strike, Corpse Explosion, Howling Blast, Scourge Strike
+
+`ApplyProgression` refuses talent-chain spells even if they appear in the table, and purges orphan ranks on login when the talent Rank 1 was never spent. Obliterate Rank 1 is also excluded from trainer 130 (talent only).
 
 ## Level 1–48 core abilities
 
@@ -35,20 +55,22 @@ The `mod-classic-deathknight` module (source: `custom-modules/mod-classic-deathk
 
 ## Level 60 mount and riding (Acherus quests skipped)
 
+Stand-ins for skipped quest **12687** (Deathcharger + Journeyman Riding). Runeforging at L48 stands in for quest **12619**.
+
 | Level | Spell | ID |
 |------:|-------|-----|
 | 60 | Apprentice Riding (prerequisite for Journeyman) | 33388 |
 | 60 | Journeyman Riding | 33391 |
 | 60 | Acherus Deathcharger (100% class mount) | 48778 |
 
-Granted automatically on login or level-up via `ApplyProgression()`, same as other class spells.
-
 ## Progression-gated (requires Individual Progression stage 13)
+
+WotLK first gate (`ClassicDeathKnight.WotlkProgressionStage = 13`) also seals Acherus map access and Death Gate casts. World trainers remain available earlier.
 
 | Level | Spell | ID |
 |------:|-------|-----|
-| 58 | Death Gate | 50977 |
-| 60 | Army of the Dead | 42650 |
+| 58 | Death Gate (quest **12801** stand-in) | 50977 |
+| 60 | Army of the Dead (remapped trainer spell, not a quest reward) | 42650 |
 
 ## Damage scaling
 
@@ -57,8 +79,6 @@ WotLK Death Knight spell IDs are balanced for level 55+ heroes. Classic DKs lear
 - Level 1: ~10% of stock damage (configurable via `ClassicDeathKnight.DamageScaleMinMultiplier`)
 - Level 60: 100% (full WotLK values, `ClassicDeathKnight.DamageScaleFullLevel`)
 
-Rank upgrades for strikes, coils, and runes are mapped to levels 50–54 in the same table.
+Baseline rank upgrades for strikes, coils, and runes are mapped to levels 50–54 in the same table. Trainer template **130** mirrors these levels for manual training.
 
-Trainer template **130** mirrors these levels for manual training at world NPCs.
-
-Regenerate SQL: `python3 scripts/generate-classic-dk-sql.py`
+Regenerate SQL: `python3 tools/generate-classic-dk-sql.py`.

@@ -36,6 +36,8 @@ public:
     bool ShouldScaleSpell(Unit const* caster, SpellInfo const* spellInfo) const;
 
 private:
+    void PurgeOrphanTalentRanks(Player* player) const;
+
     std::unordered_map<uint32, ClassicDkSpellEntry> _spells;
     std::vector<uint32> _allSpellIds;
 };

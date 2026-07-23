@@ -34,6 +34,32 @@ uint32 const DkWorldAccessQuestIds[] = {
     13189, // Saurfang's Blessing (Horde)
 };
 
+// Talent Rank 1 IDs for DK abilities that have trainer rank upgrades.
+// Used to strip orphan ranks when the talent was never spent.
+uint32 const DkTalentChainFirstRanks[] = {
+    49020, // Obliterate
+    49143, // Frost Strike
+    55050, // Heart Strike
+    49158, // Corpse Explosion
+    49184, // Howling Blast
+    55090, // Scourge Strike
+};
+
+bool PlayerHasTalentSpell(Player const* player, uint32 spellId)
+{
+    for (uint8 spec = 0; spec < MAX_TALENT_SPECS; ++spec)
+        if (player->HasTalent(spellId, spec))
+            return true;
+
+    return false;
+}
+
+bool IsTalentChainSpell(uint32 spellId)
+{
+    uint32 const firstId = sSpellMgr->GetFirstSpellInChain(spellId);
+    return GetTalentSpellCost(firstId) > 0;
+}
+
 // Warrior-equivalent starter clothes per race (shirt/harness + pants + boots).
 // Torso coverage uses the Shirt slot (6125 Brawler's Harness, Recruit's Shirt, etc.) — same as warriors.
 std::vector<uint32> GetStarterClothItemIds(uint8 race)
@@ -243,6 +269,10 @@ void ClassicDeathKnightMgr::ApplyProgression(Player* player, bool onLogin)
         ClassicDkSpellEntry const& entry = _spells[spellId];
         bool allowed = level >= entry.level && progression >= entry.requiresProgression;
 
+        // Talent abilities / ranks are never auto-granted from the progression table.
+        if (IsTalentChainSpell(spellId))
+            allowed = false;
+
         if (allowed)
         {
             if (!player->HasSpell(spellId))
@@ -252,8 +282,28 @@ void ClassicDeathKnightMgr::ApplyProgression(Player* player, bool onLogin)
             player->removeSpell(spellId, SPEC_MASK_ALL, false);
     }
 
+    PurgeOrphanTalentRanks(player);
+
     if (onLogin && sConfigMgr->GetOption<bool>("ClassicDeathKnight.Announce", false))
         ChatHandler(player->GetSession()).SendSysMessage("|cffC41E3AClassic Death Knight|r progression active.");
+}
+
+void ClassicDeathKnightMgr::PurgeOrphanTalentRanks(Player* player) const
+{
+    if (!player)
+        return;
+
+    for (uint32 firstId : DkTalentChainFirstRanks)
+    {
+        if (PlayerHasTalentSpell(player, firstId))
+            continue;
+
+        for (uint32 spellId = firstId; spellId; spellId = sSpellMgr->GetNextSpellInChain(spellId))
+        {
+            if (player->HasSpell(spellId))
+                player->removeSpell(spellId, SPEC_MASK_ALL, false);
+        }
+    }
 }
 
 float ClassicDeathKnightMgr::GetDamageScaleMultiplier(uint8 playerLevel) const
