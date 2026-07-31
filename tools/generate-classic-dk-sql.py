@@ -541,6 +541,13 @@ def gen_trainers_sql() -> str:
     lines.append(",\n".join(cd_vals) + ";")
     lines.append("INSERT INTO `creature` VALUES")
     lines.append(",\n".join(c_vals) + ";")
+    # Cloned templates need an explicit display model or they spawn invisible.
+    lines.append("DELETE FROM `creature_template_model` WHERE `CreatureID` BETWEEN "
+                 f"{BASE_NPC} AND {BASE_NPC + 99};")
+    model_vals = [f"({BASE_NPC + i},0,25459,1,1,0)" for i in range(len(TRAINER_SPAWNS))]
+    lines.append("INSERT INTO `creature_template_model` "
+                 "(`CreatureID`,`Idx`,`CreatureDisplayID`,`DisplayScale`,`Probability`,`VerifiedBuild`) VALUES")
+    lines.append(",\n".join(model_vals) + ";")
     return "\n".join(lines)
 
 
