@@ -15,9 +15,18 @@ ClassicDeathKnight.Enable = 1
 ClassicDeathKnight.Announce = 0
 
 # ClassicDeathKnight.WotlkProgressionStage
-#        Description: Individual Progression stage required for Death Gate / Acherus (PROGRESSION_TBC_TIER_5 = 13)
+#        Description: Individual Progression stage required for WotLK-gated DK spells (Army of the Dead).
+#                     Death Gate / Acherus use ClassicDeathKnight.GateAcherus instead.
 #        Default: 13
 ClassicDeathKnight.WotlkProgressionStage = 13
+
+# ClassicDeathKnight.GateAcherus
+#        Description: If 1, kick DKs out of Ebon Hold and block Death Gate until
+#                     WotlkProgressionStage. Classic realms should leave this at 0 —
+#                     Acherus is in the world, spirit rez already works nearby, and
+#                     Runeforging is usable once you can reach it.
+#        Default: 0
+ClassicDeathKnight.GateAcherus = 0
 
 # ClassicDeathKnight.PlateSkillLevel
 #        Description: Level at which Death Knights learn plate mail (skill 293)

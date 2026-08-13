@@ -86,6 +86,9 @@ public:
         if (player->GetMapId() != MAP_EBON_HOLD || player->IsGameMaster())
             return;
 
+        if (!sConfigMgr->GetOption<bool>("ClassicDeathKnight.GateAcherus", false))
+            return;
+
         if (sClassicDeathKnight->HasWotlkAccess(player))
             return;
 
@@ -146,6 +149,9 @@ public:
             return;
 
         if (!player->IsClass(CLASS_DEATH_KNIGHT, CLASS_CONTEXT_ABILITY))
+            return;
+
+        if (!sConfigMgr->GetOption<bool>("ClassicDeathKnight.GateAcherus", false))
             return;
 
         if (sClassicDeathKnight->HasWotlkAccess(player))

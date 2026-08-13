@@ -10,7 +10,7 @@ This module loads the table and learns/unlearns spells on login and level-up via
 |--------|------|-------|
 | Dense baseline ranks in progression table | ~L54 | Icy Touch / Plague Strike / etc. rank upgrades |
 | `mod-learn-spells` | MaxLevel **55** | 56–80 = class trainers only |
-| Quest-skip specials | L58 / L60 | Death Gate, Army, riding, Deathcharger — not continued rank spam |
+| Quest-skip specials | L55 / L60 | Death Gate + Runeforging at 55; Army, riding, Deathcharger at 60 |
 
 World DK trainers (template **130**) are in racial starts and major capitals (Stormwind, Ironforge, Orgrimmar, Undercity, Darnassus, Thunder Bluff, Exodar, Silvermoon). They are **not** WotLK-gated.
 
@@ -24,7 +24,7 @@ Do **not** put these (or their ranks) in `classic_dk_spell_progression`:
 
 `ApplyProgression` refuses talent-chain spells even if they appear in the table, and purges orphan ranks on login when the talent Rank 1 was never spent. Obliterate Rank 1 is also excluded from trainer 130 (talent only).
 
-## Level 1–48 core abilities
+## Level 1–46 core abilities
 
 | Level | Spell | ID |
 |------:|-------|-----|
@@ -51,11 +51,10 @@ Do **not** put these (or their ranks) in `classic_dk_spell_progression`:
 | 42 | Unholy Presence | 48265 |
 | 44 | Empower Rune Weapon | 47568 |
 | 46 | Raise Ally | 61999 |
-| 48 | Runeforging | 53428 |
 
 ## Level 60 mount and riding (Acherus quests skipped)
 
-Stand-ins for skipped quest **12687** (Deathcharger + Journeyman Riding). Runeforging at L48 stands in for quest **12619**.
+Stand-ins for skipped quest **12687** (Deathcharger + Journeyman Riding). Runeforging at L55 stands in for quest **12619** (same level as Death Gate).
 
 | Level | Spell | ID |
 |------:|-------|-----|
@@ -63,13 +62,21 @@ Stand-ins for skipped quest **12687** (Deathcharger + Journeyman Riding). Runefo
 | 60 | Journeyman Riding | 33391 |
 | 60 | Acherus Deathcharger (100% class mount) | 48778 |
 
-## Progression-gated (requires Individual Progression stage 13)
+## Death Gate and Acherus (level 55)
 
-WotLK first gate (`ClassicDeathKnight.WotlkProgressionStage = 13`) also seals Acherus map access and Death Gate casts. World trainers remain available earlier.
+Acherus is not IP-gated (`ClassicDeathKnight.GateAcherus = 0`). The citadel is in the world; dying nearby already spirit-rezzes there. Runeforging and Death Gate are auto-taught together at 55.
 
 | Level | Spell | ID |
 |------:|-------|-----|
-| 58 | Death Gate (quest **12801** stand-in) | 50977 |
+| 55 | Runeforging (quest **12619** stand-in) | 53428 |
+| 55 | Death Gate (quest **12801** stand-in) | 50977 |
+
+## Progression-gated (requires Individual Progression stage 13)
+
+`ClassicDeathKnight.WotlkProgressionStage = 13` still gates Army of the Dead. World trainers remain available earlier.
+
+| Level | Spell | ID |
+|------:|-------|-----|
 | 60 | Army of the Dead (remapped trainer spell, not a quest reward) | 42650 |
 
 ## Damage scaling

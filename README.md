@@ -1,11 +1,11 @@
 # mod-classic-deathknight
 
-Classic Death Knight experience for AzerothCore: level 1–60 in racial starting zones, remapped spell progression, world trainers, level-scaled ability damage, and WotLK-gated Death Gate / Acherus access.
+Classic Death Knight experience for AzerothCore: level 1–60 in racial starting zones, remapped spell progression, world trainers, level-scaled ability damage, and Death Gate / Runeforging at 55 (Acherus is not IP-gated by default).
 
 ## Requirements
 
 - AzerothCore (WotLK)
-- [mod-individual-progression](https://github.com/ZhengPeiRu21/mod-individual-progression) (Death Gate unlock stage)
+- [mod-individual-progression](https://github.com/ZhengPeiRu21/mod-individual-progression) (Army of the Dead unlock stage)
 
 ## Install
 
@@ -19,7 +19,7 @@ Copy `conf/classicDeathKnight.conf.dist` to your server `etc/modules/classicDeat
 
 ## Configuration
 
-Purpose: classic L1–60 DK experience with remapped spells, world trainers, level-scaled ability damage, and IP-gated Death Gate / Acherus.
+Purpose: classic L1–60 DK experience with remapped spells, world trainers, level-scaled ability damage, and Death Gate / Runeforging at 55.
 
 See `conf/classicDeathKnight.conf.dist`:
 
@@ -27,7 +27,8 @@ See `conf/classicDeathKnight.conf.dist`:
 |-----|---------|---------|
 | `ClassicDeathKnight.Enable` | 1 | Master switch |
 | `ClassicDeathKnight.Announce` | 0 | Login announce for DK characters |
-| `ClassicDeathKnight.WotlkProgressionStage` | 13 | IP stage required for Death Gate / Acherus (`PROGRESSION_TBC_TIER_5`) |
+| `ClassicDeathKnight.WotlkProgressionStage` | 13 | IP stage required for Army of the Dead (`PROGRESSION_TBC_TIER_5`) |
+| `ClassicDeathKnight.GateAcherus` | 0 | If 1, kick DKs from Ebon Hold and block Death Gate until `WotlkProgressionStage` |
 | `ClassicDeathKnight.PlateSkillLevel` | 40 | Level to learn plate |
 | `ClassicDeathKnight.DamageScaleEnable` | 1 | Scale DK spell/DoT power by level |
 | `ClassicDeathKnight.DamageScaleFullLevel` | 60 | Level at full WotLK damage |

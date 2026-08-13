@@ -68,11 +68,11 @@ SPELL_PROGRESSION = {
     48265: (42, 0),  # Unholy Presence
     47568: (44, 0),  # Empower Rune Weapon
     61999: (46, 0),  # Raise Ally
-    53428: (48, 0),  # Runeforging
+    53428: (55, 0),  # Runeforging (with Death Gate; Acherus reachable)
     53344: (50, 0),  # Rune of Swordbreaking (first rune spell)
     53341: (52, 0),  # Rune of Cinderglacier
     53343: (54, 0),  # Rune of Lichbane
-    50977: (58, 13), # Death Gate - WotLK progression
+    50977: (55, 0),  # Death Gate — auto at 55, Acherus not IP-gated
     42650: (60, 13), # Army of the Dead
     # Acherus mount/riding quests skipped — grant at 60 (apprentice is a 33391 prerequisite)
     33388: (60, 0),  # Apprentice Riding
