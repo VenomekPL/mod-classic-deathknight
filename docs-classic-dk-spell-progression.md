@@ -66,10 +66,13 @@ Stand-ins for skipped quest **12687** (Deathcharger + Journeyman Riding). Runefo
 
 Acherus is not IP-gated (`ClassicDeathKnight.GateAcherus = 0`). The citadel is in the world; dying nearby already spirit-rezzes there. Runeforging and Death Gate are auto-taught together at 55.
 
-| Level | Spell | ID |
-|------:|-------|-----|
+| Level | Spell / item | ID |
+|------:|--------------|-----|
 | 55 | Runeforging (quest **12619** stand-in) | 53428 |
 | 55 | Death Gate (quest **12801** stand-in) | 50977 |
+| 55 | Sigil of the Dark Rider mailed once (quest **12687** stand-in) | 39208 |
+
+The sigil mail is sent on login or level-up at 55+. Once-only is stored by crediting quest 12687 (no XP/mount). Existing 55+ DKs who never completed that quest get the letter on next login. Effect: +90 Blood Strike / Heart Strike damage.
 
 ## Progression-gated (requires Individual Progression stage 13)
 

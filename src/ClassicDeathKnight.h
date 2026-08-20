@@ -30,6 +30,7 @@ public:
     void SanitizeFirstAid(Player* player);
     void SanitizeTaxiNodes(Player* player);
     void EnsureDkWorldAccessQuests(Player* player);
+    void EnsureDarkRiderSigil(Player* player);
     bool HasWotlkAccess(Player* player) const;
     uint8 GetPlayerProgression(Player* player) const;
     float GetDamageScaleMultiplier(uint8 playerLevel) const;

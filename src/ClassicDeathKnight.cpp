@@ -5,6 +5,7 @@
 #include "DBCStores.h"
 #include "IndividualProgression.h"
 #include "Item.h"
+#include "Mail.h"
 #include "Player.h"
 #include "SpellInfo.h"
 #include "SpellMgr.h"
@@ -33,6 +34,12 @@ uint32 const DkWorldAccessQuestIds[] = {
     13188, // Where Kings Walk (Alliance)
     13189, // Saurfang's Blessing (Horde)
 };
+
+// Skipped Acherus quest 12687 rewards this sigil. Credit that quest once so we never re-mail.
+uint32 const ITEM_SIGIL_OF_THE_DARK_RIDER = 39208;
+uint32 const QUEST_INTO_THE_REALM_OF_SHADOWS = 12687;
+uint32 const NPC_SALANAR_THE_HORSEMAN = 28653;
+uint8 const DARK_RIDER_SIGIL_LEVEL = 55;
 
 // Talent Rank 1 IDs for DK abilities that have trainer rank upgrades.
 // Used to strip orphan ranks when the talent was never spent.
@@ -283,9 +290,52 @@ void ClassicDeathKnightMgr::ApplyProgression(Player* player, bool onLogin)
     }
 
     PurgeOrphanTalentRanks(player);
+    EnsureDarkRiderSigil(player);
 
     if (onLogin && sConfigMgr->GetOption<bool>("ClassicDeathKnight.Announce", false))
         ChatHandler(player->GetSession()).SendSysMessage("|cffC41E3AClassic Death Knight|r progression active.");
+}
+
+void ClassicDeathKnightMgr::EnsureDarkRiderSigil(Player* player)
+{
+    if (!player || player->GetLevel() < DARK_RIDER_SIGIL_LEVEL)
+        return;
+
+    if (player->IsQuestRewarded(QUEST_INTO_THE_REALM_OF_SHADOWS))
+        return;
+
+    // Already own one (quest, GM, or prior mail) — mark once so we never send again.
+    if (player->HasItemCount(ITEM_SIGIL_OF_THE_DARK_RIDER, 1, true))
+    {
+        player->SetRewardedQuest(QUEST_INTO_THE_REALM_OF_SHADOWS);
+        return;
+    }
+
+    Item* item = Item::CreateItem(ITEM_SIGIL_OF_THE_DARK_RIDER, 1, player);
+    if (!item)
+    {
+        LOG_ERROR("module", "ClassicDeathKnight: failed to create Sigil of the Dark Rider for {}",
+            player->GetGUID().ToString());
+        return;
+    }
+
+    CharacterDatabaseTransaction trans = CharacterDatabase.BeginTransaction();
+    item->SaveToDB(trans);
+
+    MailDraft draft("Sigil of the Dark Rider",
+        "Death knight,$B$BThe runeblade is only half of your armament. Take this sigil — "
+        "the same gift the Dark Rider would have given you in the Realm of Shadows.$B$B"
+        "It strengthens Blood Strike and Heart Strike.$B$BSalanar the Horseman");
+    draft.AddItem(item);
+    draft.SendMailTo(trans, MailReceiver(player, player->GetGUID().GetCounter()),
+        MailSender(MAIL_CREATURE, NPC_SALANAR_THE_HORSEMAN), MAIL_CHECK_MASK_HAS_BODY);
+
+    CharacterDatabase.CommitTransaction(trans);
+    player->SetRewardedQuest(QUEST_INTO_THE_REALM_OF_SHADOWS);
+
+    if (player->GetSession())
+        ChatHandler(player->GetSession()).SendSysMessage(
+            "|cffC41E3AClassic Death Knight|r A letter from Salanar the Horseman has arrived.");
 }
 
 void ClassicDeathKnightMgr::PurgeOrphanTalentRanks(Player* player) const
