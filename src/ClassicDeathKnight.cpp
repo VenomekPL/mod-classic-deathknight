@@ -43,8 +43,8 @@ uint8 const DARK_RIDER_SIGIL_LEVEL = 55;
 
 // Talent Rank 1 IDs for DK abilities that have trainer rank upgrades.
 // Used to strip orphan ranks when the talent was never spent.
+// Obliterate is baseline (trainer 61/67/73/79), not a talent — do not list it here.
 uint32 const DkTalentChainFirstRanks[] = {
-    49020, // Obliterate
     49143, // Frost Strike
     55050, // Heart Strike
     49158, // Corpse Explosion

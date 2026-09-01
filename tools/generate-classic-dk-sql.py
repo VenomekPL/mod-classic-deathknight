@@ -95,7 +95,8 @@ SPELL_PROGRESSION = {
     49939: (52, 0),  # Blood Boil rank 2
     54446: (54, 0),  # Rune Strike (baseline, not a talent)
     # Talent abilities / ranks are NEVER auto-granted — talent tree + trainer ReqAbility.
-    # Do not add: Frost Strike, Obliterate, Heart Strike, Corpse Explosion, Howling Blast, Scourge Strike.
+    # Do not add: Frost Strike, Heart Strike, Corpse Explosion, Howling Blast, Scourge Strike.
+    # Obliterate is baseline (not a talent). Keep it off this table; trainers use stock 61/67/73/79.
     53323: (54, 0),  # Rune of Spellbreaking
     53331: (50, 0),  # Rune of Spellshattering
     53342: (52, 0),  # Rune of Razorice
@@ -104,12 +105,19 @@ SPELL_PROGRESSION = {
 
 # Talent Rank 1 spell IDs — exclude from trainer 130 (learned via talent tree only).
 TALENT_RANK1_SPELLS = {
-    49020,  # Obliterate
     49143,  # Frost Strike
     55050,  # Heart Strike
     49158,  # Corpse Explosion
     49184,  # Howling Blast
     55090,  # Scourge Strike
+}
+
+# Baseline WotLK trainer spells that stay at stock levels (not remapped into 1-60).
+STOCK_TRAINER_LEVEL_SPELLS = {
+    49020,  # Obliterate Rank 1
+    51423,  # Obliterate Rank 2
+    51424,  # Obliterate Rank 3
+    51425,  # Obliterate Rank 4
 }
 
 # Spells normally granted at DK creation or via Acherus questline (not on template 13)
@@ -213,6 +221,8 @@ TRAINER_13_ROWS = """
 
 
 def remap_trainer_level(old_level: int, spell_id: int) -> int:
+    if spell_id in STOCK_TRAINER_LEVEL_SPELLS:
+        return old_level
     if spell_id in SPELL_PROGRESSION:
         return SPELL_PROGRESSION[spell_id][0]
     if old_level <= 54:

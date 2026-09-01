@@ -20,9 +20,20 @@ Talent Rank 1 comes from the talent tree. Higher ranks are trained only after `R
 
 Do **not** put these (or their ranks) in `classic_dk_spell_progression`:
 
-- Frost Strike, Obliterate, Heart Strike, Corpse Explosion, Howling Blast, Scourge Strike
+- Frost Strike, Heart Strike, Corpse Explosion, Howling Blast, Scourge Strike
 
-`ApplyProgression` refuses talent-chain spells even if they appear in the table, and purges orphan ranks on login when the talent Rank 1 was never spent. Obliterate Rank 1 is also excluded from trainer 130 (talent only).
+`ApplyProgression` refuses talent-chain spells even if they appear in the table, and purges orphan ranks on login when the talent Rank 1 was never spent.
+
+## Obliterate (stock WotLK, not remapped)
+
+Obliterate is a baseline class ability, not a talent. It is **not** on the 1–60 auto-learn curve. Train it at stock levels from trainer 130 (or any WotLK DK trainer):
+
+| Rank | Spell | ID | Level |
+|-----:|-------|-----|------:|
+| 1 | Obliterate | 49020 | 61 |
+| 2 | Obliterate | 51423 | 67 |
+| 3 | Obliterate | 51424 | 73 |
+| 4 | Obliterate | 51425 | 79 |
 
 ## Level 1–46 core abilities
 
