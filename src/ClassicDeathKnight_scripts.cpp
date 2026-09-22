@@ -140,7 +140,7 @@ public:
         if (spellId != SPELL_DEATH_GATE && spellId != SPELL_DEATH_GATE_TRIGGER)
             return;
 
-        Unit* caster = spell->GetCaster();
+        Unit* caster = spell->GetCaster() ? spell->GetCaster()->ToUnit() : nullptr;
         if (!caster || !caster->IsPlayer())
             return;
 
